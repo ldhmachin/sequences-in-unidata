@@ -1,0 +1,89 @@
+******************************************************************************
+* Program: SmithNums                                        Date: 02/11/2017 *
+* Author: Louis Machin	                                                     *
+* ========================================================================== *
+* Description: Finds all smith numbers up to a given limit.                  *
+* A smith number is where sum of the prime factors equal twice the original. *
+* ========================================================================== *
+* Reason: Getting used to UniBasic syntax.                                   *
+* ========================================================================== *
+******************************************************************************
+GOSUB Initialize_Variables
+* ============================================================================
+* Main Program
+* ============================================================================
+LOOP UNTIL Num > Lim DO
+	GOSUB Prime_Factorization
+	GOSUB Sum_Prime_Factors
+	GOSUB Sum_Digits
+    PRINT Num : ' ' : PrimeSum : ' ' : DigitSum
+	IF PrimeSum = DigitSum THEN
+		PRINT Num
+	END
+	GOSUB Increment_Check_Number
+REPEAT
+RETURN
+* ============================================================================
+Prime_Factorization:
+* ============================================================================
+** Print the number of 2s that divide 'Num'
+LOOP UNTIL MOD(Temp_Num, 2) # 0 DO
+	Factors<FactorPointer> = 2
+	FactorPointer += 1
+	Temp_Num /= 2
+REPEAT
+** Num is now odd, check every 2 
+i = 3
+LOOP UNTIL i > SQRT(Temp_Num) DO
+	IF MOD(Temp_Num, i) = 0 THEN
+		Factors<FactorPointer> = i
+		FactorPointer += 1
+		Temp_Num /= i
+	END
+	i += 2
+REPEAT
+RETURN
+* ============================================================================
+Sum_Prime_Factors:
+* ============================================================================
+PrimeSum = 0
+FOR i = 0 TO FactorPointer 
+	PrimeSum += Factors<i>
+NEXT i
+RETURN
+* ============================================================================
+Increment_Check_Number:
+* ============================================================================
+FactorPointer = 0
+FOR i = 0 TO 25
+	Factors<i> = 0
+NEXT i
+Num += 1
+Temp_Num = Num
+RETURN
+* ============================================================================
+Sum_Digits:
+* ============================================================================
+DigitSum = 0
+N = Num
+LOOP UNTIL N < 10 DO
+	DigitSum += REM(N, 10)
+	N -= REM(N, 10)
+	N /= 10
+REPEAT
+RETURN
+* ============================================================================
+Initialize_Variables:
+* ============================================================================
+PRINT 'Upper-limit:'
+INPUT Lim
+Factors = ''
+FOR i = 0 TO 25
+	Factors<i> = 0
+NEXT i
+FactorPointer = 0
+Num = 5
+DigitSum = 0
+Temp_Num = Num
+PrimeSum = 0
+RETURN

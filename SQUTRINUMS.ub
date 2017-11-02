@@ -1,0 +1,31 @@
+******************************************************************************
+* Program: SquareTriangleNums                               Date: 02/11/2017 *
+* Author: Louis Machin	                                                     *
+* ========================================================================== *
+* Description: Finds all numbers which are both square and triangle numbers. *
+* ****************************************************************************
+GOSUB Initialize_Variables
+* ============================================================================
+* Main Program
+* ============================================================================
+IF NUM < LIM THEN
+	LOOP UNTIL NUM > LIM DO
+		IF REM(SQRT(NUM), 1) = 0 THEN
+		  PRINT NUM : ' is square-triangular'
+		END
+		INC += 1
+		NUM += INC		
+	REPEAT
+END ELSE
+  PRINT 'Limit is too small'
+END
+RETURN
+* ============================================================================
+Initialize_Variables:
+* ============================================================================
+PRINT 'Upper search limit:'
+INPUT LIM
+NUM = 1
+INC = 1
+TRI = 0
+RETURN
